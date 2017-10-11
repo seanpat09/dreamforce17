@@ -1,0 +1,27 @@
+<aura:component implements="flexipage:availableForAllPageTypes" controller="AdmissionsTasksController">
+    <aura:attribute name="tasks" type="AdmissionsTasksController.TaskWithLeadInfo[]" access="private"/>
+    <aura:attribute name="segment" type="string" access="global"/>
+    <aura:handler name="init" action="{!c.getTasks}" value="{!this}"/>
+    <div class="slds-box slds-theme--default slds-container--small slds-is-relative">
+        <h2 class="slds-truncate">
+            <lightning:icon iconName="standard:task" size="medium"/>
+            &nbsp;{!v.segment}
+            <div class="slds-float--right">
+                <lightning:buttonIcon iconName="utility:refresh" variant="bare" onclick="{!c.getTasks}" alternativeText="Refresh Tasks" />
+            </div>
+        </h2>
+        <br/>
+        <div aura:id="loading" role="status" class="slds-spinner slds-spinner--medium">
+            <span class="slds-assistive-text">Loading</span>
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+        </div>
+        <aura:renderIf isTrue="{!v.tasks.length > 0 }">
+            <div aura:id="tasks-container" class="slds-hide slds-scrollable tasks-container">
+                <aura:iteration items="{!v.tasks}" var="task">
+                    <c:AdmissionsTask taskWithLeadInfo="{!task}"/>
+                </aura:iteration>
+            </div>
+        </aura:renderIf>
+    </div>
+</aura:component>

@@ -1,0 +1,10 @@
+.THIS .completed > a {
+    text-decoration: line-through;
+}
+
+.THIS .overdue {
+    padding: .2rem;
+    font-size: 0.4rem;
+    background: #d4504c;
+    color: #fff;
+}

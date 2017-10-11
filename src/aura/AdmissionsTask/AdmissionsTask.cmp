@@ -1,0 +1,29 @@
+<aura:component controller="AdmissionsTasksController">
+<aura:attribute name="taskWithLeadInfo" type="AdmissionsTasksController.TaskWithLeadInfo" required="true"/>
+<aura:attribute name="isOverdue" type="Boolean"/>
+<aura:handler name="init" value="{!this}" action="{!c.setIsOverdue}"/>
+<aura:dependency resource="markup://force:editRecord" type="EVENT" />
+<div class="slds-tile slds-media">
+    <div class="slds-media__body">
+        <h3 class="slds-truncate" aura:id="task"><a href="javascript:void(0);" onclick="{!c.goToLead}">{!v.taskWithLeadInfo.leadInfo.Name}</a> | <a href="javascript:void(0);" onclick="{!c.goToTask}">View Task</a> | Due Date: <ui:outputDate value="{!v.taskWithLeadInfo.taskInfo.ActivityDate}"/>
+            <aura:renderIf isTrue="{!v.isOverdue}">
+                &nbsp;<span class="slds-badge overdue">Overdue</span>
+            </aura:renderIf>
+        </h3>
+        <div class="slds-tile__detail slds-text-body--small">
+            {!v.taskWithLeadInfo.leadInfo.Company} | Created Date: {!v.taskWithLeadInfo.leadInfo.CreatedDate}
+        </div>
+        <aura:renderIf isTrue="{!v.taskWithLeadInfo.leadInfo.LeadSource != NULL }">
+            <div class="slds-tile__detail slds-text-body--small">
+                Lead Source: {!v.taskWithLeadInfo.leadInfo.LeadSource}
+            </div>
+        </aura:renderIf>
+        <div class="slds-tile__detail slds-text-body--small">
+            <aura:renderIf isTrue="{!v.taskWithLeadInfo.leadInfo.Phone != NULL }">
+                <lightning:icon iconName="utility:call" size="x-small" class="slids-icon-text-error" alternativeText="Phone number"/>&nbsp;
+                <ui:outputPhone value="{!v.taskWithLeadInfo.leadInfo.Phone}"/>
+            </aura:renderIf>
+        </div>
+    </div>
+</div>
+</aura:component>

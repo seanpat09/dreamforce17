@@ -1,0 +1,28 @@
+<aura:component >
+    <aura:attribute name="groupingKey" type="String" description="key so we know which data to access from factMap"/>
+    <aura:attribute name="factMap" type="Object" description="all data keyed to groupings so we can pull the correct data"/>
+    <aura:attribute name="dataRows" type="Object[]" description="rows of data from report"/>
+    <aura:handler name="init" value="{!this}" action="c.doInit"/>
+    <aura:handler name="change" action="c.doInit" value="{!v.factMap}"/>
+    
+    <!-- gives us access to edit modal -->
+    <aura:dependency resource="markup://force:editRecord" type="EVENT" />
+    <aura:iteration items="{!v.dataRows}" var="aRow">
+        <tr>
+            <aura:iteration items="{!aRow.dataCells}" var="aCell">
+                <td style="text-align: right;">
+                    <!-- quick way to check if this is a lookup field so we can handle differently with view and edit access-->
+                    <aura:if isTrue="{! (aCell.value != aCell.label) &amp;&amp; (aCell.value.length == 15 || aCell.value.length == 18)}">
+                        <a href="{!'/'+aCell.value}" target="_blank">{!aCell.label}</a>&nbsp;
+                        <a href="javascript:void(0);" onclick="{!c.editRecord}" data-recordid="{!aCell.value}">
+                            <lightning:icon iconName="utility:edit" size="x-small" class="slids-icon-text-error" alternativeText="Edit"/>
+                        </a>
+                        <aura:set attribute="else">
+                            {!aCell.label}
+                        </aura:set>
+                    </aura:if> 
+                </td>
+            </aura:iteration>
+        </tr>
+    </aura:iteration>
+</aura:component>

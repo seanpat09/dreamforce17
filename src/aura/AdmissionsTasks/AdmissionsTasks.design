@@ -1,0 +1,3 @@
+<design:component >
+    <design:attribute name="segment" label="Segment" description="Please add task subject" />
+</design:component>

@@ -1,0 +1,53 @@
+<aura:component implements="flexipage:availableForAllPageTypes" controller="ReportComponentController">
+    <!-- on page load get the report -->
+    <aura:handler name="init" action="{!c.getReport}" value="{!this}"/>    
+
+    <aura:attribute name="groupingLevelToLabel" type="Object" description="Holds grouping hierarchy by level and label"/>
+    <aura:attribute name="reportData" type="Object" description="Holds reporting API JSON structure"/>
+    <aura:attribute name="factMap" type="Object" description="Holds row detail data for easier access in controller"/>
+    <aura:attribute name="reportIdAttribute" type="String" description="Id for the report to display"/>
+    <aura:attribute name="columnLabels" type="String[]" description="Labels of columns, order is assumed"/>
+    
+    <div class="slds-theme--default slds-is-relative">
+        <!-- Show spinner while loading data -->
+        <div aura:id="loading" class="slds-spinner_container">
+            <div role="status" class="slds-spinner slds-spinner--small">
+                <span class="slds-assistive-text">Loading</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+        
+        <!-- holds report data -->
+        <div aura:id="report" class="report-container slds-hide">
+            <!-- display title and button to refresh component -->
+            <h1 class="slds-section__title">
+                <a href="{!'/'+v.reportIdAttribute}" target="_blank">{!v.reportData.reportMetadata.name}</a>
+                &nbsp;&nbsp;&nbsp;<lightning:buttonIcon iconName="utility:refresh" variant="bare" onclick="{!c.getReport}" alternativeText="Refresh Report" />
+            </h1>
+            <table class="slds-table slds-table--bordered">
+                
+                <!-- iterate through and display in header row -->
+                <thead>
+                    <tr class="slds-text-title--caps">
+                        <aura:iteration items="{!v.columnLabels}" var="l">
+                            <th style="text-align:right;">{!l}</th>
+                        </aura:iteration>
+                    </tr>
+                </thead>
+
+                <!-- recursively display grouping data -->
+                <tbody>
+                    <aura:if isTrue="{!v.reportData.groupingsDown.groupings != null}">
+                        <!-- if there are groupings, display first grouping -->
+                        <c:ReportGrouping numColumns="{!v.reportData.reportMetadata.detailColumns.length}" groupings="{!v.reportData.groupingsDown.groupings}" level="0" groupingLevelToLabel="{!v.groupingLevelToLabel}" factMap="{!v.factMap}"/>
+                        <!-- else if there are no groupings, just display row data -->
+                        <aura:set attribute="else">
+                            <c:GroupingDataCells groupingKey="T" factMap="{!v.factMap}"/>
+                        </aura:set>
+                    </aura:if>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,24 @@
+/*depending on level, add more indentation*/
+.THIS .level-col-1{
+    padding-left: 15px;
+}
+
+.THIS .level-col-2{
+    padding-left: 30px;
+}
+
+.THIS.level-row-0{
+    background-color: #d5ddf3;
+}
+
+.THIS.level-row-1{
+    background-color: #eff4fc;
+}
+
+.THIS.level-row-2{
+    background-color: #f3feff;
+}
+
+.THIS .fieldLabel  {
+    font-weight: bold;
+}
