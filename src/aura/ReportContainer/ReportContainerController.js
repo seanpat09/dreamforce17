@@ -1,10 +1,13 @@
 ({
     getReport : function(component, event, helper) {
         //hide report and show spinner while we process
+        debugger;
         var loadingSpinner = component.find('loading');
         $A.util.removeClass(loadingSpinner, 'slds-hide');
         var reportContainer = component.find('report');
         $A.util.addClass(reportContainer, 'slds-hide');
+        var reportError = component.find('report-error');
+        $A.util.addClass(reportError, 'slds-hide');
 
         //get report data from Apex controller using report ID provided
         var action = component.get('c.getReportMetadata');
@@ -45,6 +48,10 @@
                 //hide spinner, reveal data
                 $A.util.addClass(loadingSpinner, 'slds-hide');
                 $A.util.removeClass(reportContainer, 'slds-hide');
+            }
+            else {
+                $A.util.addClass(loadingSpinner, 'slds-hide');
+                $A.util.removeClass(reportError, 'slds-hide');
             }
         })
         $A.enqueueAction(action);

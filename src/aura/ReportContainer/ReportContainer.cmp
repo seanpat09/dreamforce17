@@ -18,8 +18,20 @@
             </div>
         </div>
         
+        <div aura:id="report-error" style="height: 4rem;">
+            <div class="slds-notify_container slds-is-relative">
+                <div class="slds-notify slds-notify_toast slds-theme_error" role="alert">
+                    <span class="slds-assistive-text">error</span>
+                    
+                    <div class="slds-notify__content">
+                        <h2 class="slds-text-heading_small">The data you’re trying to access is unavailable. Please notify your System Administrator</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
         <!-- holds report data -->
-        <div aura:id="report" class="report-container slds-hide">
+        <div aura:id="report" class="report-container slds-hide slds-p-around_small">
             <!-- display title and button to refresh component -->
             <h1 class="slds-section__title">
                 <a href="{!'/'+v.reportIdAttribute}" target="_blank">{!v.reportData.reportMetadata.name}</a>
